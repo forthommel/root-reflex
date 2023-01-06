@@ -14,10 +14,16 @@ int main() {
     TTree tree("events", "events tree");
 
     MyObject obj;
+    vector<MyObject> objs;
+
     tree.Branch("myObject", &obj);
+    tree.Branch("myObjects", &objs);
 
     for (size_t i = 0; i < 10; ++i) {
       obj.setA(i * 2.);
+      objs.clear();
+      for (size_t j = 0; j < i; ++j)
+        objs.emplace_back();
       tree.Fill();
     }
 
@@ -29,10 +35,13 @@ int main() {
     TFile file("my_file.root");
     auto* tree = file.Get<TTree>("events");
     MyObject* obj{nullptr};
+    vector<MyObject>* objs{nullptr};
     tree->SetBranchAddress("myObject", &obj);
+    tree->SetBranchAddress("myObjects", &objs);
     for (unsigned long long i = 0; i < tree->GetEntriesFast(); ++i) {
       tree->GetEntry(i);
-      cout << obj->name() << ": " << obj->a() << ", " << obj->bSum() << endl;
+      cout << obj->name() << ": " << obj->a() << ", " << obj->bSum() << ", objects collection size: " << objs->size()
+           << endl;
     }
   }
 

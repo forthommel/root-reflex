@@ -1,3 +1,4 @@
 <lcgdict>
   <class name="MyObject"/>
+  <class name="std::vector<MyObject>"/>
 </lcgdict>
