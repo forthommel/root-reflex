@@ -20,6 +20,7 @@ int main() {
     tree.Branch("myObjects", &objs);
 
     for (size_t i = 0; i < 10; ++i) {
+      obj.setName("object#" + to_string(i));
       obj.setA(i * 2.);
       objs.clear();
       for (size_t j = 0; j < i; ++j)
